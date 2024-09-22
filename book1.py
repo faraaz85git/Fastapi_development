@@ -40,3 +40,10 @@ async def get_book_by_category(category:str):
 @app.post('/Books/create_book')
 async def create_book(new_book=Body()):
     Books.append(new_book)
+
+@app.put('/Books/update_book')
+async def update_book(update_book=Body()):
+    for book in Books:
+        if book.get('title')==update_book.get('title'):
+            book['author']=update_book['author']
+            book['category'] = update_book['category']
