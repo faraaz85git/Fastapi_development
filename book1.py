@@ -47,3 +47,9 @@ async def update_book(update_book=Body()):
         if book.get('title')==update_book.get('title'):
             book['author']=update_book['author']
             book['category'] = update_book['category']
+
+@app.delete('/Books/delete_book/{title}')
+async def delete_book(title:str):
+    for i in range(len(Books)):
+        if Books[i]['title']==title:
+            Books.pop(i)
