@@ -71,13 +71,15 @@ async def update_book(book_update:Book_request):
             book_change=True
     if not book_change:
         raise HTTPException(status_code=404,detail='not updated')
-    
+
 @app.delete('/delete_book/{id}')
 async def delete_book_by_id(id:int=Path(gt=-1)):
     for i in range(len(Book_list)):
         if Book_list[i].id==id:
             Book_list.pop(i)
             return
+
+    raise HTTPException(status_code=404,detail="not deleted")
 
 def get_book_id(book:Books):
     if len(Book_list)>0:
