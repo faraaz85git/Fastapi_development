@@ -64,10 +64,14 @@ async def create_book(book:Book_request):
 
 @app.put('/update_book')
 async def update_book(book_update:Book_request):
+    book_change=False
     for i in range(len(Book_list)):
         if Book_list[i].id==book_update.id:
             Book_list[i] = Books(**book_update.model_dump())
-
+            book_change=True
+    if not book_change:
+        raise HTTPException(status_code=404,detail='not updated')
+    
 @app.delete('/delete_book/{id}')
 async def delete_book_by_id(id:int=Path(gt=-1)):
     for i in range(len(Book_list)):
