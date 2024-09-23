@@ -1,7 +1,7 @@
 from fastapi import FastAPI,Path,Query,HTTPException
 from pydantic import BaseModel,Field
 from typing import Optional
-
+from starlette import status
 app=FastAPI()
 
 class Books:
@@ -39,7 +39,7 @@ Books(4,'Cenage','Unkown','PCMB',2.9,3000),
 Books(5,'rd sharma','R.D Sharma','for mathematics',3.5,3000),
 ]
 
-@app.get('/Books')
+@app.get('/Books',status_code=status.HTTP_200_OK)
 async def get_books():
     return Book_list
 
@@ -57,7 +57,7 @@ async def get_book_rating(rating:float=Query(gt=0.0,lt=5.1)):
            book_to_return.append(book)
     return book_to_return
 
-@app.post('/create_book')
+@app.post('/create_book',status_code=status.HTTP_201_CREATED)
 async def create_book(book:Book_request):
     new_book=Books(**book.model_dump())#model_dump == .dict()
     Book_list.append(get_book_id(new_book))
